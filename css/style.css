@@ -73,3 +73,7 @@ fieldset {
   margin: 0 auto;
   padding: 0 var(--padding);
 }
+
+.blue-text {
+  color: #2A18FF;
+}

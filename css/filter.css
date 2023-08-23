@@ -1,0 +1,61 @@
+.filter {
+  position: relative;
+}
+.filter__reset {
+  position: absolute;
+  top: 7px;
+  right: 0;
+  color: #ccc;
+}
+.filter__title {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 32px;
+}
+.filter__form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.filter__fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.filter__legend {
+  margin-bottom: 12px;
+}
+.filter__select {
+  width: 100%;
+}
+.filter__range {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.filter__label:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.filter__input {
+  flex: 1 1 50%;
+  width: 100%;
+  padding: 0 16px;
+  height: 32px;
+  border: 0;
+}
+.filter__input::placeholder {
+  color: #ccc;
+}
+.filter__checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.filter__button {
+  padding: 8px 24px;
+  border-radius: 4px;
+  background-color: #a6adff;
+}

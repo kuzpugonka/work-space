@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Workspace</title>
 
-    <link rel="stylesheet" href="./css/normalise81.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="./js/choices.min.js" defer></script>
+    <script src="./js/script.js" defer></script>
   </head>
 
   <body>
-    <header>
-      <div class="header header__container">
+    <header class="header">
+      <div class="container header__container">
         <img src="./img/logo.svg" alt="logo" class="header__logo" />
 
         <a href="#vacancies" class="header__link">Посмотреть вакансии</a>
@@ -30,10 +31,11 @@
 
       <div class="vacancies" id="vacancies">
         <div class="container vacancies__container">
+          <button class="vacancies__filter-btn"></button>
             <section class="vacancies__filter filter">
                 <h2 class="filter__title">Фильтр</h2>
 
-                <form action="" class="filter__form">
+                <form class="filter__form">
                   <fieldset class="filter__fieldset">
                     <legend class="filter__legend">Город</legend>
 
@@ -56,9 +58,9 @@
                     </div>
                   </fieldset>
 
-                  <div class="filter__check-boxes">
+                  <div class="filter__checkboxes">
                     <fieldset class="filter__fieldset">
-                      <legend>Формат</legend>
+                      <legend class="filter__legend">Формат</legend>
 
                       <label class="filter__label checkbox">
                         <input type="checkbox" name="format" class="checkbox-input" value="Офис">Офис
@@ -75,7 +77,7 @@
                     </fieldset>
 
                     <fieldset class="filter__fieldset">
-                      <legend>Опыт работы</legend>
+                      <legend class="filter__legend">Опыт работы</legend>
 
                       <label class="filter__label checkbox">
                         <input type="checkbox" name="experience" class="checkbox-input" value="Не важно">Не важно
@@ -94,7 +96,7 @@
 
                     </fieldset>
                     <fieldset class="filter__fieldset">
-                      <legend>Занятость</legend>
+                      <legend class="filter__legend">Занятость</legend>
 
                       <label class="filter__label checkbox">
                         <input type="checkbox" name="type" class="checkbox-input" value="Полная">Полная
@@ -142,6 +144,38 @@
                     </ul>
                   </article>
                 </li>
+                <li class="cards__item">
+                  <article class="vacancy" tabindex="0">
+                    <img src="./img/logo-man.png" alt="logo" class="vacancy__img">
+
+                    <p class="vacancy__company">Creative People</p>
+
+                    <h3 class="vacancy__title">Графический дизайнер</h3>
+
+                    <ul class="vacancy__fields">
+                      <li class="vacancy__field">от 110 000₽</li>
+                      <li class="vacancy__field">проектная работа</li>
+                      <li class="vacancy__field">удаленный</li>
+                      <li class="vacancy__field">опыт от 1 года до 3-х лет</li>
+                    </ul>
+                  </article>
+                </li>
+                <li class="cards__item">
+                  <article class="vacancy" tabindex="0">
+                    <img src="./img/yadro.png" alt="logo" class="vacancy__img">
+
+                    <p class="vacancy__company">YADRO</p>
+
+                    <h3 class="vacancy__title">Инженер</h3>
+
+                    <ul class="vacancy__fields">
+                      <li class="vacancy__field">от 150 000₽</li>
+                      <li class="vacancy__field">полная занятость</li>
+                      <li class="vacancy__field">офис</li>
+                      <li class="vacancy__field">опыт от 3-х лет</li>
+                    </ul>
+                  </article>
+                </li>
               </ul>
             </section>
         </div>
@@ -149,7 +183,7 @@
     </main>
 
     <footer class="footer">
-      <div class="container">
+      <div class="container footer__container">
         <img src="./img/logo-footer.svg" alt="logo" class="footer__logo">
 
         <p class="footer__copyright">© Work Space, 2023</p>

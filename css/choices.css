@@ -1,0 +1,27 @@
+.choices {
+  width: 100%;
+}
+.choices__inner {
+  position: relative;
+  background-color: #fff;
+  padding: 6px 16px;
+  min-height: 32px;
+  border: 0;
+}
+.choices__list--single {
+  padding: 0;
+}
+
+.choices[data-type*="select-one"]::after {
+  width: 20px;
+  height: 20px;
+  background: url(../img/arrow.svg) no-repeat center/contain;
+  border: 0;
+  top: 6px;
+  right: 16px;
+  margin-top: 0;
+}
+.choices[data-type*="select-one"].is-open::after {
+  transform: rotate(180deg);
+  margin-top: 0;
+}

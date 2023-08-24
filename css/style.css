@@ -1,7 +1,7 @@
 @font-face {
-  font-family: 'Inter';
-  src: url('../fonts/inter-regular.woff2') format('.woff2');
-  src: url('../fonts/inter-regular.woff') format('.woff');
+  font-family: "Inter";
+  src: url("../fonts/inter-regular.woff2") format(".woff2");
+  src: url("../fonts/inter-regular.woff") format(".woff");
   font-weight: 400;
 }
 
@@ -29,7 +29,8 @@ body {
   background-color: #f3f4f8;
 }
 
-img, cvg {
+img,
+cvg {
   max-width: 100%;
   max-height: 100%;
   height: auto;
@@ -53,7 +54,10 @@ ul {
   list-style: none;
 }
 
-h1, h2, h3, p {
+h1,
+h2,
+h3,
+p {
   margin: 0;
 }
 fieldset {
@@ -76,7 +80,7 @@ fieldset {
 }
 
 .blue-text {
-  color: #2A18FF;
+  color: #2a18ff;
 }
 
 @media (max-width: 1140px) {
@@ -92,7 +96,7 @@ fieldset {
 }
 
 @media (max-width: 640px) {
-  .container {    
+  .container {
     --padding: 15px;
   }
 }

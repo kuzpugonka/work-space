@@ -3,6 +3,7 @@ const LOCATION_URL = "api/locations"; // получить города
 const VACANCY_URL = "api/vacancy";
 
 const cardsList = document.querySelector(".cards__list");
+
 let lastUrl = "";
 const pagination = {};
 
@@ -149,9 +150,13 @@ const renderModal = (data) => {
   });
 };
 
+// const openModal = (id) => {
+//   getData(`${API_URL}${VACANCY_URL}/${id}`, renderModal, renderError);
+// };
+
 const openModal = (id) => {
   getData(`${API_URL}${VACANCY_URL}/${id}`, renderModal, renderError);
-};
+}
 
 const observer = new IntersectionObserver(
   (entries) => {
@@ -189,7 +194,7 @@ const init = () => {
     }
   );
 
-  // cards не работает
+  // cards
 
   const urlWithParams = new URL(`${API_URL}${VACANCY_URL}`);
 
@@ -200,16 +205,17 @@ const init = () => {
     lastUrl = urlWithParams;
   });
 
-  // modal невозможно проверить
+  // modal 
 
-  cardsList.addEventListener("click", ({ target }) => {
-    const vacancyCard = target.closest(".vacancy");
+  cardsList.addEventListener('click', ({target}) => {
+    const vacancyCard = target.closest('.vacancy') 
+    console.log('vacancyCard: ', vacancyCard);
 
     if (vacancyCard) {
       const vacancyId = vacancyCard.dataset.id;
       openModal(vacancyId);
     }
-  });
+  }); 
 
   // filter работает
 

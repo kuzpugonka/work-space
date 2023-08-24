@@ -37,14 +37,13 @@ const createCard = (vacancy) => `
   </article>
 `;
 
-const createCards = (data) => {
+const createCards = (data) => 
   data.vacancies.map((vacancy) => {
     const li = document.createElement("li");
     li.classList.add(".cards__item");
     li.insertAdjacentHTML("beforeend", createCard(vacancy));
     return li;
   });
-};
 
 const renderVacancies = (data) => {
   cardsList.textContent = "";

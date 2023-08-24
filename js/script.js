@@ -2,6 +2,10 @@ const API_URL = "https://workspace-methed.vercel.app/";
 const LOCATION_URL = "api/locations"; // получить города
 const VACANCY_URL = "api/vacancy";
 
+const cardsList = document.querySelector(".cards__list");
+let lastUrl = "";
+const pagination = {};
+
 const getData = async (url, cbSuccess, cbError) => {
   try {
     const responce = await fetch(url);
@@ -14,14 +18,18 @@ const getData = async (url, cbSuccess, cbError) => {
 
 const createCard = (vacancy) => `
   <article class="vacancy" tabindex="0" data-id="${vacancy.id}">
-    <img src="${API_URL}${vacancy.logo}" alt="Логотип компании ${vacancy.company}" class="vacancy__img">
+    <img src="${API_URL}${vacancy.logo}" alt="Логотип компании ${
+  vacancy.company
+}" class="vacancy__img">
 
     <p class="vacancy__company">${vacancy.company}</p>
 
     <h3 class="vacancy__title">${vacancy.title}</h3>
 
     <ul class="vacancy__fields">
-      <li class="vacancy__field">от ${parseInt(vacancy.salary).toLocaleString()}₽</li>
+      <li class="vacancy__field">от ${parseInt(
+        vacancy.salary
+      ).toLocaleString()}₽</li>
       <li class="vacancy__field">${vacancy.format}</li>
       <li class="vacancy__field">${vacancy.type}</li>
       <li class="vacancy__field">${vacancy.experience}</li>
@@ -38,13 +46,47 @@ const createCards = (data) => {
   });
 };
 
-const renderVacancy = (data, cardsList) => {
+const renderVacancies = (data) => {
   cardsList.textContent = "";
   const cards = createCards(data);
   cardsList.append(...cards);
+
+  if (data.pagination) {
+    Object.assign(pagination, data.pagination);
+  }
+
+  observer.observe(cardsList.lastElementChild);
 };
+
+const renderMoreVacancies = (data) => {
+
+  const cards = createCards(data);
+  cardsList.append(...cards);
+
+  if (data.pagination) {
+    Object.assign(pagination, data.pagination);
+  }
+
+  observer.observe(cardsList.lastElementChild);
+
+};
+
+const loadMoreVacancies = () => {
+  if (pagination.totalPages > pagination.currentPage) {
+    const urlWithParams = new URL(lastUrl);
+    urlWithParams.searchParams.set("page", pagination.currentPage + 1);
+    urlWithParams.searchParams.set('limit', window.innerWidth < 768 ? 6 : 12);
+
+
+    getData(urlWithParams, renderMoreVacancies, renderError).then(() => {
+      lastUrl = urlWithParams;
+
+    });
+  }
+};
+
 const renderError = (err) => {
-  console.warn(err);
+  // console.warn(err);
 };
 
 const createDetailVacancy = ({
@@ -89,7 +131,7 @@ const renderModal = (data) => {
   modalMain.classList.add("modal__main");
   modalMain.innerHTML = createDetailVacancy(data);
   const modalClose = document.createElement("button");
-  modalClose.classList.add('modal__close');
+  modalClose.classList.add("modal__close");
   modalClose.innerHTML = `
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g>
@@ -101,8 +143,8 @@ const renderModal = (data) => {
   modal.append(modalMain);
   document.body.append(modal);
 
-  modal.addEventListener('click', ({target}) => {
-    if (target === modal || target.closest('.modal__close')) {
+  modal.addEventListener("click", ({ target }) => {
+    if (target === modal || target.closest(".modal__close")) {
       modal.remove();
     }
   });
@@ -112,9 +154,21 @@ const openModal = (id) => {
   getData(`${API_URL}${VACANCY_URL}/${id}`, renderModal, renderError);
 };
 
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        loadMoreVacancies();
+      }
+    });
+  },
+  {
+    rootMargin: "100px",
+  }
+);
+
 const init = () => {
   const filterForm = document.querySelector(".filter__form");
-  const cardsList = document.querySelector(".cards__list");
 
   // select city работает
   const citySelect = document.querySelector("#city");
@@ -138,15 +192,14 @@ const init = () => {
 
   // cards не работает
 
-  const url = new URL(`${API_URL}${VACANCY_URL}`);
+  const urlWithParams = new URL(`${API_URL}${VACANCY_URL}`);
 
-  getData(
-    url,
-    (data) => {
-      renderVacancy(data, cardsList);
-    },
-    renderError
-  );
+  urlWithParams.searchParams.set('limit', window.innerWidth < 768 ? 6 : 12);
+  urlWithParams.searchParams.set('page', 1);
+
+  getData(urlWithParams, renderVacancies, renderError).then(() => {
+    lastUrl = urlWithParams;
+  });
 
   // modal невозможно проверить
 
@@ -161,22 +214,18 @@ const init = () => {
 
   // filter работает
 
-  filterForm.addEventListener('submit', (event) => {
+  filterForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const formData = new FormData(filterForm);
 
-    const urlWithParam = new URL(`${API_URL}${VACANCY_URL}`);
+    const urlWithParams = new URL(`${API_URL}${VACANCY_URL}`);
     formData.forEach((value, key) => {
-      urlWithParam.searchParams.append(key, value)
+      urlWithParams.searchParams.append(key, value);
     });
 
-    getData(
-      urlWithParam, 
-      (data) => {
-        renderVacancy(data, cardsList);
-      },
-      renderError,
-    );
+    getData(urlWithParams, renderVacancies, renderError).then(() => {
+      lastUrl = urlWithParams;
+    });
   });
 };
 

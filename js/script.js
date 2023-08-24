@@ -14,18 +14,14 @@ const getData = async (url, cbSuccess, cbError) => {
 
 const createCard = (vacancy) => `
   <article class="vacancy" tabindex="0" data-id="${vacancy.id}">
-    <img src="${API_URL}${vacancy.logo}" alt="Логотип компании ${
-  vacancy.company
-}" class="vacancy__img">
+    <img src="${API_URL}${vacancy.logo}" alt="Логотип компании ${vacancy.company}" class="vacancy__img">
 
     <p class="vacancy__company">${vacancy.company}</p>
 
     <h3 class="vacancy__title">${vacancy.title}</h3>
 
     <ul class="vacancy__fields">
-      <li class="vacancy__field">от ${parseInt(
-        vacancy.salary
-      ).toLocaleString()}₽</li>
+      <li class="vacancy__field">от ${parseInt(vacancy.salary).toLocaleString()}₽</li>
       <li class="vacancy__field">${vacancy.format}</li>
       <li class="vacancy__field">${vacancy.type}</li>
       <li class="vacancy__field">${vacancy.experience}</li>
@@ -48,7 +44,7 @@ const renderVacancy = (data, cardsList) => {
   cardsList.append(...cards);
 };
 const renderError = (err) => {
-  // console.warn(err);
+  console.warn(err);
 };
 
 const createDetailVacancy = ({
@@ -104,6 +100,12 @@ const renderModal = (data) => {
   modalMain.append(modalClose);
   modal.append(modalMain);
   document.body.append(modal);
+
+  modal.addEventListener('click', ({target}) => {
+    if (target === modal || target.closest('.modal__close')) {
+      modal.remove();
+    }
+  });
 };
 
 const openModal = (id) => {
@@ -111,9 +113,10 @@ const openModal = (id) => {
 };
 
 const init = () => {
+  const filterForm = document.querySelector(".filter__form");
   const cardsList = document.querySelector(".cards__list");
 
-  // select city
+  // select city работает
   const citySelect = document.querySelector("#city");
   const cityChoices = new Choices(citySelect, {
     // searchEnabled: false, // если удалить это, появится поиск по городам
@@ -133,7 +136,7 @@ const init = () => {
     }
   );
 
-  // cards
+  // cards не работает
 
   const url = new URL(`${API_URL}${VACANCY_URL}`);
 
@@ -145,13 +148,35 @@ const init = () => {
     renderError
   );
 
+  // modal невозможно проверить
+
   cardsList.addEventListener("click", ({ target }) => {
     const vacancyCard = target.closest(".vacancy");
-    console.log("vacancyCard: ", vacancyCard);
+
     if (vacancyCard) {
       const vacancyId = vacancyCard.dataset.id;
       openModal(vacancyId);
     }
+  });
+
+  // filter работает
+
+  filterForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(filterForm);
+
+    const urlWithParam = new URL(`${API_URL}${VACANCY_URL}`);
+    formData.forEach((value, key) => {
+      urlWithParam.searchParams.append(key, value)
+    });
+
+    getData(
+      urlWithParam, 
+      (data) => {
+        renderVacancy(data, cardsList);
+      },
+      renderError,
+    );
   });
 };
 

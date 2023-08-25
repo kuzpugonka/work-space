@@ -1,6 +1,7 @@
 const API_URL = "https://workspace-methed.vercel.app/";
 const LOCATION_URL = "api/locations"; // получить города
 const VACANCY_URL = "api/vacancy";
+const BOT_TOKEN = "5865349145:AAFzbOl9p7W0hreb0kRvdLtwShm_eLAGchA";
 
 const cardsList = document.querySelector(".cards__list");
 
@@ -38,7 +39,7 @@ const createCard = (vacancy) => `
   </article>
 `;
 
-const createCards = (data) => 
+const createCards = (data) =>
   data.vacancies.map((vacancy) => {
     const li = document.createElement("li");
     li.classList.add(".cards__item");
@@ -59,7 +60,6 @@ const renderVacancies = (data) => {
 };
 
 const renderMoreVacancies = (data) => {
-
   const cards = createCards(data);
   cardsList.append(...cards);
 
@@ -68,29 +68,26 @@ const renderMoreVacancies = (data) => {
   }
 
   observer.observe(cardsList.lastElementChild);
-
 };
 
 const loadMoreVacancies = () => {
   if (pagination.totalPages > pagination.currentPage) {
     const urlWithParams = new URL(lastUrl);
     urlWithParams.searchParams.set("page", pagination.currentPage + 1);
-    urlWithParams.searchParams.set('limit', window.innerWidth < 768 ? 6 : 12);
-
+    urlWithParams.searchParams.set("limit", window.innerWidth < 768 ? 6 : 12);
 
     getData(urlWithParams, renderMoreVacancies, renderError).then(() => {
       lastUrl = urlWithParams;
-
     });
   }
 };
 
 const renderError = (err) => {
-  // console.warn(err);
+  console.warn(err);
 };
 
 const createDetailVacancy = ({
-  // id,
+  id,
   title,
   company,
   description,
@@ -104,7 +101,6 @@ const createDetailVacancy = ({
 }) => `
   <article class="detail">
     <div class="detail__header">
-const API_URL = "https://workspace-methed.vercel.app/";
       <img class="detail__logo" src="${API_URL}${logo}" alt="Логотип компании ${company}">
       <p class="detail__company">${company}</p>
       <h2 class="detail__title">${title}</h2>
@@ -112,24 +108,60 @@ const API_URL = "https://workspace-methed.vercel.app/";
     <div class="detail__main">
       <p class="detail__description">${description.replaceAll("\n", "<br>")}</p>
       <ul class="detail__fields">
-        <li class="detail__field">от ${parseIn(salary).toLocaleString()}₽</li>
+        <li class="detail__field">от ${parseInt(salary).toLocaleString()}₽</li>
         <li class="detail__field">${type}</li>
         <li class="detail__field">${format}</li>
         <li class="detail__field">${experience}</li>
         <li class="detail__field">${location}</li>
       </ul>
     </div>
-    <p class="detail__resume">Отправляйте резюме на 
-      <a class="blue-text" href="mailto:${email}">${email}</a></p>
+
+    ${
+      isNaN(parseInt(id.slice(-1)))
+        ? `
+            <p class="detail__resume">Отправляйте резюме на 
+              <a class="blue-text" href="mailto:${email}">${email}</a>
+            </p>
+          `
+        : `
+            <form class="detail__tg">
+            <input class="detail__input" type="text" name="message" placeholder="Напишите свой email">
+            <input name="vacancyId" type="hidden" value="${id}">
+            <button class="detail__btn">Отправить</button> 
+            </form>
+          `
+    }
+    
   </article>     
 `;
 
+const sendTelegrm = (modal) => {
+  modal.addEventListener("submit", (e) => {
+    e.preventDefault();
+    // console.log("hello");
+    const form = e.target.closest(".detail__tg");
+    // console.log(form);
+
+    const userId = "719154468";
+
+    const text = `Отклик на вакансию ${form.vacancyId.value}, email: ${form.message.value}`
+    const urlBot = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${userId}&text=${text}`;
+
+    fetch(urlBot).then(res => alert('Успешно отправлено')).catch(err => {
+      alert('Ошибка')
+      // console.log(error);
+    })
+  });
+};
+
 const renderModal = (data) => {
+  // console.log('data: ', data);
   const modal = document.createElement("div");
   modal.classList.add("modal");
   const modalMain = document.createElement("div");
   modalMain.classList.add("modal__main");
   modalMain.innerHTML = createDetailVacancy(data);
+
   const modalClose = document.createElement("button");
   modalClose.classList.add("modal__close");
   modalClose.innerHTML = `
@@ -140,6 +172,7 @@ const renderModal = (data) => {
     </svg>
   `;
   modalMain.append(modalClose);
+
   modal.append(modalMain);
   document.body.append(modal);
 
@@ -148,15 +181,14 @@ const renderModal = (data) => {
       modal.remove();
     }
   });
+
+  sendTelegrm(modal);
 };
 
-// const openModal = (id) => {
-//   getData(`${API_URL}${VACANCY_URL}/${id}`, renderModal, renderError);
-// };
-
 const openModal = (id) => {
+  // console.log("openModal: ", openModal);
   getData(`${API_URL}${VACANCY_URL}/${id}`, renderModal, renderError);
-}
+};
 
 const observer = new IntersectionObserver(
   (entries) => {
@@ -174,10 +206,10 @@ const observer = new IntersectionObserver(
 const init = () => {
   const filterForm = document.querySelector(".filter__form");
 
-  // select city работает
+  // select city
   const citySelect = document.querySelector("#city");
   const cityChoices = new Choices(citySelect, {
-    // searchEnabled: false, // если удалить это, появится поиск по городам
+    // searchEnabled: true, // если удалить это, появится поиск по городам
     itemSelectText: "",
   });
 
@@ -198,24 +230,26 @@ const init = () => {
 
   const urlWithParams = new URL(`${API_URL}${VACANCY_URL}`);
 
-  urlWithParams.searchParams.set('limit', window.innerWidth < 768 ? 6 : 12);
-  urlWithParams.searchParams.set('page', 1);
+  urlWithParams.searchParams.set("limit", window.innerWidth < 768 ? 6 : 12);
+  urlWithParams.searchParams.set("page", 1);
 
   getData(urlWithParams, renderVacancies, renderError).then(() => {
     lastUrl = urlWithParams;
   });
 
-  // modal 
+  // modal
 
-  cardsList.addEventListener('click', ({target}) => {
-    const vacancyCard = target.closest('.vacancy') 
-    console.log('vacancyCard: ', vacancyCard);
+  cardsList.addEventListener("click", ({ target }) => {
+    const vacancyCard = target.closest(".vacancy");
+    // console.log("vacancyCard: ", vacancyCard);
 
     if (vacancyCard) {
       const vacancyId = vacancyCard.dataset.id;
+      // console.log("vacancyId: ", vacancyId);
       openModal(vacancyId);
+      // console.log("openModal: ", openModal);
     }
-  }); 
+  });
 
   // filter работает
 

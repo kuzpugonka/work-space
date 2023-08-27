@@ -144,13 +144,15 @@ const sendTelegrm = (modal) => {
 
     const userId = "719154468";
 
-    const text = `Отклик на вакансию ${form.vacancyId.value}, email: ${form.message.value}`
+    const text = `Отклик на вакансию ${form.vacancyId.value}, email: ${form.message.value}`;
     const urlBot = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${userId}&text=${text}`;
 
-    fetch(urlBot).then(res => alert('Успешно отправлено')).catch(err => {
-      alert('Ошибка')
-      // console.log(error);
-    })
+    fetch(urlBot)
+      .then((res) => alert("Успешно отправлено"))
+      .catch((err) => {
+        alert("Ошибка");
+        // console.log(error);
+      });
   });
 };
 
@@ -203,8 +205,49 @@ const observer = new IntersectionObserver(
   }
 );
 
+const openFilter = (btn, dropDown, classNameBtn, classNameDd) => {
+  dropDown.style.height = `${dropDown.scrollHeight}px`;
+  btn.classList.add(classNameBtn);
+  dropDown.classList.add(classNameDd);
+};
+const closeFilter = (btn, dropDown, classNameBtn, classNameDd) => {
+  btn.classList.remove(classNameBtn);
+  dropDown.classList.remove(classNameDd);
+  dropDown.style.height = '';
+}
 const init = () => {
   const filterForm = document.querySelector(".filter__form");
+  const vacanciesFilterBtn = document.querySelector(".vacancies__filter-btn");
+  const vacanciesFilter = document.querySelector(".vacancies__filter");
+
+  vacanciesFilterBtn.addEventListener("click", () => {
+    if (vacanciesFilterBtn.classList.contains("vacancies__filter-btn_active")) {
+      closeFilter(
+        vacanciesFilterBtn,
+        vacanciesFilter,
+        "vacancies__filter-btn_active",
+        "vacancies__filter_active"
+      )
+    } else {
+      openFilter(
+        vacanciesFilterBtn,
+        vacanciesFilter,
+        "vacancies__filter-btn_active",
+        "vacancies__filter_active"
+    );
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (vacanciesFilterBtn.classList.contains("vacancies__filter-btn_active")) {
+      closeFilter(
+        vacanciesFilterBtn,
+        vacanciesFilter,
+        "vacancies__filter-btn_active",
+        "vacancies__filter_active"
+      )
+    }
+  })
 
   // select city
   const citySelect = document.querySelector("#city");
@@ -251,6 +294,15 @@ const init = () => {
     }
   });
 
+  cardsList.addEventListener("keydown", ({ code, target }) => {
+    const vacancyCard = target.closest('.vacancy')
+    if (code === 'Enter' || code === 'NumpadEnter' && vacancyCard) {
+      const vacancyId = vacancyCard.dataset.id;
+      openModal(vacancyId);
+      target.blur()
+    }
+  })
+
   // filter работает
 
   filterForm.addEventListener("submit", (event) => {
@@ -264,6 +316,13 @@ const init = () => {
 
     getData(urlWithParams, renderVacancies, renderError).then(() => {
       lastUrl = urlWithParams;
+    }).then(() => {
+      closeFilter(
+        vacanciesFilterBtn,
+        vacanciesFilter,
+        "vacancies__filter-btn_active",
+        "vacancies__filter_active"
+      )
     });
   });
 };

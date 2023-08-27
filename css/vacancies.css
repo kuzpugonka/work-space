@@ -28,11 +28,14 @@
     }
     .vacancies__container {
         flex-direction: column;
-        row-gap: 32px;
+        row-gap: 0;
     }
     .vacancies__filter-btn {
         display: flex;
         align-items: center;
+        margin-bottom: 24px;
+        transition: margin-bottom 0.2s ease-in-out;
+        transition-delay: 0.2s;
     }
     .vacancies__filter-btn::after {
         content: "";
@@ -41,6 +44,11 @@
         height: 20px;
         background: url(../img/arrowBlue.svg) no-repeat center;
     }
+    .vacancies__filter-btn_active {
+        margin-bottom: 32px;
+        transition-delay: 0;
+    }
+    
     .vacancies__filter-btn_active::after {
         transform: rotate(180deg);
     }
@@ -53,6 +61,7 @@
     }
     .vacancies__filter_active {
         height: auto;
+        margin-bottom: 40px;
     }
     .vacancies__cards {
         padding-top: 8px;
@@ -61,8 +70,7 @@
 }
 
 @media (max-width: 640px) {
-    .vacancies__container {
-        flex-direction: column;
-        row-gap: 40px;
+       .vacancies__filter-btn_active {
+        margin-bottom: 24px;
     }
 }

@@ -4,6 +4,16 @@
   padding: 16px;
   height: 100%;
   cursor: pointer;
+  outline: none;
+  border: 2px solid transparent;
+}
+.vacancy:hover {
+  background-color: #f9faff;
+}
+
+.vacancy:focus-visible {
+  border-color: #a6adff;
+
 }
 .vacancy__img {
   max-height: 44px;

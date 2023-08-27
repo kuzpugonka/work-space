@@ -34,22 +34,27 @@
         display: flex;
         align-items: center;
         margin-bottom: 15px;
-        transition: margin-bottom 0.2s ease-in-out;
-        transition-delay: 0.2s;
+        transition-property: margin-bottom, color 0.2s ease-in-out;
+        transition-duration: 0.2s, 0.3s;
+        transition-timing-function: ease-in-out;
+        transition-delay: 0.2s 0s;
+        color: #2a18ff;
     }
-    .vacancies__filter-btn::after {
-        content: "";
+    .vacancies__filter-btn:hover:not(:focus) {
+        color: #a6adff;
+    }
+    .vacancies__filter-btn-arrow {
         display: block;
         width: 20px;
         height: 20px;
-        background: url(../img/arrowBlue.svg) no-repeat center -4px;
-    }
-    .vacancies__filter-btn_active {
-        margin-bottom: 32px;
-        transition-delay: 0;
     }
     
-    .vacancies__filter-btn_active::after {
+    .vacancies__filter-btn_active {
+        margin-bottom: 32px;
+        transition-delay: 0s;
+    }
+    
+    .vacancies__filter-btn_active .vacancies__filter-btn-arrow  {
         transform: rotate(180deg);
     }
     .vacancies__filter {

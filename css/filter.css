@@ -57,8 +57,20 @@
 .filter__button {
   padding: 8px 26px;
   border-radius: 4px;
-  background-color: #a6adff;
+  background-color: #a6adff;    
+  border: 2px solid transparent;
+  transition-property: color, background-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
 }
+.filter__button:focus-visible {
+    border-color: #4f58be;
+}
+.filter__button:hover {
+    background-color: #2a18ff;
+    color: #fff;
+}
+
 @media (max-width: 940px) {
   .filter__title {
     position: fixed;

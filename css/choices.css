@@ -1,5 +1,6 @@
 .choices {
   width: 100%;
+  padding-top: 3px;
 }
 .choices__inner {
   position: relative;

@@ -23,7 +23,7 @@
   align-items: start;
 }
 .filter__legend {
-  margin-bottom: 12px;
+  margin-bottom: 11px;
 }
 .filter__select {
   width: 100%;
@@ -55,7 +55,7 @@
 }
 
 .filter__button {
-  padding: 8px 24px;
+  padding: 8px 26px;
   border-radius: 4px;
   background-color: #a6adff;
 }
@@ -66,13 +66,12 @@
   }
 
   .filter__input {
-    max-width: 140px;
+    max-width: 135px;
   }
   .filter__checkboxes {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 24px;
-    justify-content: space-between;
+    gap: 24px 70px;
   }
   .filter__buttons {
     display: flex;
@@ -82,5 +81,13 @@
 
   .filter__reset {
     position: static;
+  }
+}
+@media (max-width: 640px) {
+  .filter__form {
+    gap: 26px;
+  }
+  .filter__input {
+    max-width: 140px;
   }
 }

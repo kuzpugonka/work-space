@@ -52,6 +52,7 @@
   }
   .hero__container:after {
     width: 269px;
+    top:-5px;
   }
   .hero__title {
     max-width: 450px;
@@ -63,7 +64,7 @@
 @media (max-width: 640px) {
   .hero {
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
   }
   .hero__container {
     padding-top: 0;
@@ -71,7 +72,7 @@
   }
   .hero__container:after {
     right: auto;
-    top: auto;
+    top: 43px;
     left: 50%;
     height: 269px;
     transform: translateX(-50%);

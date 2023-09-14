@@ -1,0 +1,157 @@
+.employer {
+  padding: 60px 0 50px;
+}
+.employer__title {
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0.64px;
+  margin-bottom: 50px;
+}
+/* .employer__form {
+} */
+.employer__file {
+  margin-bottom: 32px;
+}
+.employer__fieldset-input {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px 20px;
+  margin-bottom: 32px;
+}
+/* .employer__wrap-input {} была нужна для ошибки */
+.employer__label {
+  display: block;
+  margin-bottom: 12px;
+}
+.employer__input {
+  border-radius: 4px;
+  border: 0;
+  height: 32px;
+  padding: 0 16px;
+  width: 100%;
+}
+.employer__input:placeholder {
+  color: red;
+  /* color: #CCC; */
+}
+.employer__fieldset {
+  margin-bottom: 32px;
+}
+/* .employer__fieldset-textarea {} */
+.employer__textarea {
+  border-radius: 4px;
+  min-height: 140px;
+  width: 100%;
+  resize: vertical;
+  border: 0;
+  text-align: left;
+  padding: 7px 16px;
+}
+
+/* радио-кнопки */
+.employer__radio-btns {
+  display: grid;
+  grid-template-columns: repeat(3, 280px);
+  gap: 20px;
+  margin-bottom: 50px;
+}
+.employer__fieldset-radio {
+  display: flex;
+  flex-direction: column;
+}
+.employer__legend {
+  margin-bottom: 12px;
+}
+.employer__label-radio:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+/* button */
+.employer__wrap-submit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.employer__submit {
+  padding: 0 42px;
+  height: 48px;
+  border-radius: 8px;
+  background-color: #a6adff;
+  font-size: 20px;
+  border: 2px solid transparent;
+  transition-property: color, background-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+.employer__submit:focus-visible {
+  border-color: #4f58be;
+}
+.employer__submit:hover {
+  background-color: #2a18ff;
+  color: #fff;
+}
+.employer__error {
+  color: #f00;
+}
+
+@media (max-width: 1140px) {
+  .employer {
+    padding: 40px 0;
+  }
+  .employer__title {
+    margin-bottom: 40px;
+    letter-spacing: 0.64px;
+  }
+  .employer__file {
+    margin-bottom: 24px;
+  }
+  .employer__fieldset {
+    margin-bottom: 24px;
+  }
+  .employer__fieldset-input {
+    row-gap: 24px;
+  }
+  .employer__radio-btns {
+    margin-bottom: 40px;
+  }
+}
+@media (max-width: 940px) {
+  .employer {
+    padding: 30px 0;
+  }
+  .employer__title {
+    font-size: 24px;
+    letter-spacing: 0.48px;
+    margin-bottom: 32px;
+  }
+  .employer__radio-btns {
+    margin-bottom: 32px;
+  }
+
+  .employer__fieldset-input {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .employer__radio-btns {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px 10px;
+  }
+
+  .employer__submit {
+    height: 37px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 640px) {
+  .employer {
+    padding: 20px 0 40px;
+  }
+  .employer__title {
+    margin-bottom: 24px;
+    color: #171717;
+    font-size: 20px;
+    letter-spacing: 0.4px;
+  }
+}

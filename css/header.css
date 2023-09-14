@@ -5,6 +5,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
 }
 .header__links {
   display: flex;
@@ -16,6 +18,7 @@
   border-radius: 8px;
   background-color: #a6adff;
   font-size: 20px;
+  text-align: center;
   border: 2px solid transparent;
   transition-property: color, background-color;
   transition-duration: 0.2s;
@@ -52,5 +55,17 @@ border-color:  #a2adff;
 @media (max-width: 640px) {
   .header {
     padding: 24px 0 20px;
+  }
+  .header__links {
+    max-width: 290px;
+  }
+.header__container {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+  .header__link {
+    width: 100%;
   }
 }

@@ -254,6 +254,7 @@ const init = () => {
   const cityChoices = new Choices(citySelect, {
     // searchEnabled: true, // если удалить это, появится поиск по городам
     itemSelectText: "",
+    position: 'bottom', // pзаставит окно выбора открываться только вниз
   });
 
   getData(

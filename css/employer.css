@@ -4,7 +4,8 @@
 .employer__title {
   font-size: 32px;
   font-weight: 400;
-  letter-spacing: 0.64px;
+  letter-spacing: 0.4px;
+  : 0.02%;
   margin-bottom: 50px;
 }
 /* .employer__form {
@@ -102,7 +103,6 @@
   }
   .employer__title {
     margin-bottom: 40px;
-    letter-spacing: 0.64px;
   }
   .employer__file {
     margin-bottom: 24px;
@@ -123,7 +123,6 @@
   }
   .employer__title {
     font-size: 24px;
-    letter-spacing: 0.48px;
     margin-bottom: 32px;
   }
   .employer__radio-btns {
@@ -152,6 +151,5 @@
     margin-bottom: 24px;
     color: #171717;
     font-size: 20px;
-    letter-spacing: 0.4px;
   }
 }

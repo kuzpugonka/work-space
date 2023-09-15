@@ -24,12 +24,14 @@
   margin-bottom: 12px;
 }
 .employer__input {
+  outline: 0;
   border-radius: 4px;
-  border: 0;
+  border: 1px solid transparent;
   height: 32px;
   padding: 0 16px;
   width: 100%;
 }
+
 .employer__input::placeholder {
   color: #CCC;
 }
@@ -38,16 +40,29 @@
 }
 /* .employer__fieldset-textarea {} */
 .employer__textarea {
+  outline: 0;
   border-radius: 4px;
   min-height: 140px;
   width: 100%;
   resize: vertical;
-  border: 0;
+  border: 1px solid transparent;
   text-align: left;
   padding: 7px 16px;
 }
 .employer__textarea::placeholder {
   color: #CCC;
+}
+
+
+.employer__input.invalid,
+.employer__textarea.invalid {
+  border-color: #f00;
+}
+
+
+.employer__input:focus-visible,
+.employer__textarea:focus-visible {
+  border-color: #a6adff;
 }
 
 /* радио-кнопки */

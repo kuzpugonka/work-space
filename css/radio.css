@@ -5,7 +5,7 @@
   padding-left: 28px;
 }
 
-.radio-input {
+.radio__input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -14,11 +14,12 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
+  border: 1px solid transparent;
   left: 0;
   top: 0;
   bottom: 0;
   background-color: #fff;
-  /* transition: box-shadow 0.2s ease-in-out; */
+  transition: box-shadow 0.2s ease-in-out;
 }
 
 .radio__input:after {

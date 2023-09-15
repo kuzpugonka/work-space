@@ -1,4 +1,5 @@
-const API_URL = "https://workspace-methed.vercel.app/";
+const API_URL = "https://adorable-cultured-trade.glitch.me/";
+// console.log('API_URL: ', API_URL);
 const LOCATION_URL = "api/locations"; // получить города
 const VACANCY_URL = "api/vacancy";
 const BOT_TOKEN = "5865349145:AAFzbOl9p7W0hreb0kRvdLtwShm_eLAGchA";
@@ -20,9 +21,7 @@ const getData = async (url, cbSuccess, cbError) => {
 
 const createCard = (vacancy) => `
   <article class="vacancy" tabindex="0" data-id="${vacancy.id}">
-    <img src="${API_URL}${vacancy.logo}" alt="Логотип компании ${
-  vacancy.company
-}" class="vacancy__img">
+    <img src="${API_URL}${vacancy.logo}" alt="Логотип компании ${vacancy.company}" class="vacancy__img">
 
     <p class="vacancy__company">${vacancy.company}</p>
 
@@ -346,6 +345,10 @@ const init = () => {
         errorLabelStyle: {
           color: "#f00",
         },
+        errorFieldStyle: {
+          borderColor: "#f00",
+        },
+        errorFieldCssClass: "invalid",
         errorsContainer: document.querySelector(".employer__error"),
       });
       validate
@@ -381,7 +384,8 @@ const init = () => {
           { rule: "required", errorMessage: "Заполните город" },
         ])
         .addField("#email", [
-          { rule: "email", errorMessage: "Заполните email" },
+          { rule: "required", errorMessage: "Заполните email" },
+          { rule: "email", errorMessage: "Введите корректный email" },
         ])
         .addField("#description", [
           { rule: "required", errorMessage: "Заполните описание вакансии" }, // не появилась
@@ -389,6 +393,8 @@ const init = () => {
         .addRequiredGroup("#format", "Выберите формать работы")
         .addRequiredGroup("#experiens", "Выберите опыт работы")
         .addRequiredGroup("#type", "Выберите тип занятости");
+
+      return validate;
     };
 
     const fileController = () => {
@@ -417,11 +423,30 @@ const init = () => {
       const form = document.querySelector(".employer__form");
       // console.log("form: ", form);
 
-      validationForm(form);
+      const validate = validationForm(form);
 
-      form.addEventListener("submit", (event) => {
+      form.addEventListener("submit", async (event) => {
         event.preventDefault(); //отменяет перезагрузку страницы при нажатии на кнопку
-        console.log("Отправка идет");
+
+        if (!validate.isValid) {
+          // console.log("Отправка идет");
+          return;
+        }
+
+        try {
+          const formData = new FormData(form);
+
+          const responce = await fetch(`${API_URL}${VACANCY_URL}`, {
+            method: "POST",
+            body: formData,
+          });
+
+          if (responce.ok) {
+            window.location.href = "index.html";
+          }
+        } catch (error) {
+          console.error(error);
+        }
       });
     };
 

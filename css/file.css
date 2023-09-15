@@ -7,8 +7,11 @@
   min-width: 280px;
   height: 80px;
   border-radius: 4px;
-  background: #fff;
+  background-color: #fff;
   margin-bottom: 12px;
+}
+.file_active .file__wrap-preview {
+  background-color: transparent;
 }
 .file__wrap-preview_active {
   min-width: auto;
@@ -23,7 +26,7 @@
   border-radius: 4px;
   background: #a6adff;
   cursor: pointer;
-  border: 2px solid transparent;  
+  border: 2px solid transparent;
   transition-property: color, background-color;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
@@ -46,5 +49,6 @@
   opacity: 0;
 }
 .file__wrap-btn:focus-within .file__label {
-  border-color: #4f58be;
+  border-color: transparent;
+  background-color: #ccc;
 }

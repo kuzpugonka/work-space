@@ -213,119 +213,224 @@ const openFilter = (btn, dropDown, classNameBtn, classNameDd) => {
 const closeFilter = (btn, dropDown, classNameBtn, classNameDd) => {
   btn.classList.remove(classNameBtn);
   dropDown.classList.remove(classNameDd);
-  dropDown.style.height = '';
-}
+  dropDown.style.height = "";
+};
+
 const init = () => {
-  const filterForm = document.querySelector(".filter__form");
-  const vacanciesFilterBtn = document.querySelector(".vacancies__filter-btn");
-  const vacanciesFilter = document.querySelector(".vacancies__filter");
+  try {
+    const filterForm = document.querySelector(".filter__form");
+    const vacanciesFilterBtn = document.querySelector(".vacancies__filter-btn");
+    const vacanciesFilter = document.querySelector(".vacancies__filter");
 
-  vacanciesFilterBtn.addEventListener("click", () => {
-    if (vacanciesFilterBtn.classList.contains("vacancies__filter-btn_active")) {
-      closeFilter(
-        vacanciesFilterBtn,
-        vacanciesFilter,
-        "vacancies__filter-btn_active",
-        "vacancies__filter_active"
-      )
-    } else {
-      openFilter(
-        vacanciesFilterBtn,
-        vacanciesFilter,
-        "vacancies__filter-btn_active",
-        "vacancies__filter_active"
+    vacanciesFilterBtn.addEventListener("click", () => {
+      if (
+        vacanciesFilterBtn.classList.contains("vacancies__filter-btn_active")
+      ) {
+        closeFilter(
+          vacanciesFilterBtn,
+          vacanciesFilter,
+          "vacancies__filter-btn_active",
+          "vacancies__filter_active"
+        );
+      } else {
+        openFilter(
+          vacanciesFilterBtn,
+          vacanciesFilter,
+          "vacancies__filter-btn_active",
+          "vacancies__filter_active"
+        );
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (
+        vacanciesFilterBtn.classList.contains("vacancies__filter-btn_active")
+      ) {
+        closeFilter(
+          vacanciesFilterBtn,
+          vacanciesFilter,
+          "vacancies__filter-btn_active",
+          "vacancies__filter_active"
+        );
+      }
+    });
+
+    // select city
+    const citySelect = document.querySelector("#city");
+    const cityChoices = new Choices(citySelect, {
+      // searchEnabled: true, // если удалить это, появится поиск по городам
+      itemSelectText: "",
+      position: "bottom", // pзаставит окно выбора открываться только вниз
+    });
+
+    getData(
+      `${API_URL}${LOCATION_URL}`,
+      (locationData) => {
+        const locations = locationData.map((location) => ({
+          value: location,
+        }));
+        cityChoices.setChoices(locations, "value", "label", false);
+      },
+      (err) => {
+        console.log(err);
+      }
     );
-    }
-  });
 
-  window.addEventListener('resize', () => {
-    if (vacanciesFilterBtn.classList.contains("vacancies__filter-btn_active")) {
-      closeFilter(
-        vacanciesFilterBtn,
-        vacanciesFilter,
-        "vacancies__filter-btn_active",
-        "vacancies__filter_active"
-      )
-    }
-  })
-
-  // select city
-  const citySelect = document.querySelector("#city");
-  const cityChoices = new Choices(citySelect, {
-    // searchEnabled: true, // если удалить это, появится поиск по городам
-    itemSelectText: "",
-    position: 'bottom', // pзаставит окно выбора открываться только вниз
-  });
-
-  getData(
-    `${API_URL}${LOCATION_URL}`,
-    (locationData) => {
-      const locations = locationData.map((location) => ({
-        value: location,
-      }));
-      cityChoices.setChoices(locations, "value", "label", false);
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-
-  // cards
-
-  const urlWithParams = new URL(`${API_URL}${VACANCY_URL}`);
-
-  urlWithParams.searchParams.set("limit", window.innerWidth < 768 ? 6 : 12);
-  urlWithParams.searchParams.set("page", 1);
-
-  getData(urlWithParams, renderVacancies, renderError).then(() => {
-    lastUrl = urlWithParams;
-  });
-
-  // modal
-
-  cardsList.addEventListener("click", ({ target }) => {
-    const vacancyCard = target.closest(".vacancy");
-    // console.log("vacancyCard: ", vacancyCard);
-
-    if (vacancyCard) {
-      const vacancyId = vacancyCard.dataset.id;
-      // console.log("vacancyId: ", vacancyId);
-      openModal(vacancyId);
-      // console.log("openModal: ", openModal);
-    }
-  });
-
-  cardsList.addEventListener("keydown", ({ code, target }) => {
-    const vacancyCard = target.closest('.vacancy')
-    if (code === 'Enter' || code === 'NumpadEnter' && vacancyCard) {
-      const vacancyId = vacancyCard.dataset.id;
-      openModal(vacancyId);
-      target.blur()
-    }
-  })
-
-  // filter работает
-
-  filterForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const formData = new FormData(filterForm);
+    // cards
 
     const urlWithParams = new URL(`${API_URL}${VACANCY_URL}`);
-    formData.forEach((value, key) => {
-      urlWithParams.searchParams.append(key, value);
-    });
+
+    urlWithParams.searchParams.set("limit", window.innerWidth < 768 ? 6 : 12);
+    urlWithParams.searchParams.set("page", 1);
 
     getData(urlWithParams, renderVacancies, renderError).then(() => {
       lastUrl = urlWithParams;
-    }).then(() => {
-      closeFilter(
-        vacanciesFilterBtn,
-        vacanciesFilter,
-        "vacancies__filter-btn_active",
-        "vacancies__filter_active"
-      )
     });
-  });
+
+    // modal
+
+    cardsList.addEventListener("click", ({ target }) => {
+      const vacancyCard = target.closest(".vacancy");
+      // console.log("vacancyCard: ", vacancyCard);
+
+      if (vacancyCard) {
+        const vacancyId = vacancyCard.dataset.id;
+        // console.log("vacancyId: ", vacancyId);
+        openModal(vacancyId);
+        // console.log("openModal: ", openModal);
+      }
+    });
+
+    cardsList.addEventListener("keydown", ({ code, target }) => {
+      const vacancyCard = target.closest(".vacancy");
+      if (code === "Enter" || (code === "NumpadEnter" && vacancyCard)) {
+        const vacancyId = vacancyCard.dataset.id;
+        openModal(vacancyId);
+        target.blur();
+      }
+    });
+
+    // filter работает
+
+    filterForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(filterForm);
+
+      const urlWithParams = new URL(`${API_URL}${VACANCY_URL}`);
+      formData.forEach((value, key) => {
+        urlWithParams.searchParams.append(key, value);
+      });
+
+      getData(urlWithParams, renderVacancies, renderError)
+        .then(() => {
+          lastUrl = urlWithParams;
+        })
+        .then(() => {
+          closeFilter(
+            vacanciesFilterBtn,
+            vacanciesFilter,
+            "vacancies__filter-btn_active",
+            "vacancies__filter_active"
+          );
+        });
+    });
+  } catch (error) {
+    console.log("error: ", error);
+    console.warn("Мы не на странице индекс аштимээль");
+  }
+
+  try {
+    const validationForm = (form) => {
+      // console.log("JustValidate: ", JustValidate); //проверка подключения
+      const validate = new JustValidate(form, {
+        errorLabelStyle: {
+          color: "#f00",
+        },
+        errorsContainer: document.querySelector(".employer__error"),
+      });
+      validate
+        .addField("#logo", [
+          {
+            rule: "minFilesCount",
+            value: 1,
+            errorMessage: "Добавьте логотип компании",
+          },
+          {
+            rule: "files",
+            value: {
+              files: {
+                extensions: ["jpeg", "png", "jpg"],
+                maxSize: 102400,
+                minSize: 1000,
+                types: ["image/jpeg", "image/png", "image/jpg"],
+              },
+            },
+            errorMessage: "Размер файла не более 100Kb",
+          },
+        ])
+        .addField("#company", [
+          { rule: "required", errorMessage: "Заполните название компании" },
+        ])
+        .addField("#title", [
+          { rule: "required", errorMessage: "Заполните название вакансии" },
+        ])
+        .addField("#salary", [
+          { rule: "required", errorMessage: "Заполните заработную плату" },
+        ])
+        .addField("#location", [
+          { rule: "required", errorMessage: "Заполните город" },
+        ])
+        .addField("#email", [
+          { rule: "email", errorMessage: "Заполните email" },
+        ])
+        .addField("#description", [
+          { rule: "required", errorMessage: "Заполните описание вакансии" }, // не появилась
+        ])
+        .addRequiredGroup("#format", "Выберите формать работы")
+        .addRequiredGroup("#experiens", "Выберите опыт работы")
+        .addRequiredGroup("#type", "Выберите тип занятости");
+    };
+
+    const fileController = () => {
+      const file = document.querySelector(".file");
+      const preview = file.querySelector(".file__preview");
+      const input = file.querySelector(".file__input");
+      // console.log('input: ', input);
+
+      input.addEventListener("change", (event) => {
+        // console.log(event.target.files);
+        if (event.target.files.length > 0) {
+          const src = URL.createObjectURL(event.target.files[0]);
+          // console.log("src: ", src);
+          file.classList.add("file_active");
+          preview.src = src;
+          preview.style.display = "block";
+        } else {
+          file.classList.remove("file_active");
+          preview.src = "";
+          preview.style.display = "none";
+        }
+      });
+    };
+
+    const formController = () => {
+      const form = document.querySelector(".employer__form");
+      // console.log("form: ", form);
+
+      validationForm(form);
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault(); //отменяет перезагрузку страницы при нажатии на кнопку
+        console.log("Отправка идет");
+      });
+    };
+
+    formController();
+    fileController();
+  } catch (error) {
+    console.log("error: ", error);
+    console.warn("Мы не на странице employer аШтимээль");
+  }
 };
 
 init();

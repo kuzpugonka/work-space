@@ -6,7 +6,7 @@
     <title>Workspace - добавить вакансии</title>
 
     <link rel="stylesheet" href="index.css" />
-    <script src="./js/choices.min.js" defer></script>
+    <script src="./js/just-validate.min.js" defer></script>
     <script src="./js/script.js" defer></script>
   </head>
 
@@ -125,7 +125,7 @@
             </fieldset>
 
             <div class="employer__radio-btns">
-              <fieldset class="employer__fieldset-radio">
+              <fieldset class="employer__fieldset-radio" id="format">
                 <legend class="employer__legend">Формат</legend>
 
                 <label class="employer__label-radio radio">
@@ -154,7 +154,7 @@
                 </label>
               </fieldset>
 
-              <fieldset class="employer__fieldset-radio">
+              <fieldset class="employer__fieldset-radio" id="experiens">
                 <legend class="employer__legend">Опыт работы</legend>
 
                 <label class="employer__label-radio radio">
@@ -191,7 +191,7 @@
                 </label>
               </fieldset>
 
-              <fieldset class="employer__fieldset-radio">
+              <fieldset class="employer__fieldset-radio" id="type">
                 <legend class="employer__legend">Занятость</legend>
 
                 <label class="employer__label-radio radio">
@@ -234,7 +234,7 @@
                 Добавить вакансию
               </button>
               <div class="employer__error">
-                <p>Ошибка. Заполните все поля</p>
+                <!-- <p>Ошибка. Заполните все поля</p> -->
               </div>
             </div>
           </form>

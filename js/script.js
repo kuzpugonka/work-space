@@ -391,7 +391,7 @@ const init = () => {
           { rule: "required", errorMessage: "Заполните описание вакансии" }, // не появилась
         ])
         .addRequiredGroup("#format", "Выберите формать работы")
-        .addRequiredGroup("#experiens", "Выберите опыт работы")
+        .addRequiredGroup("#experience", "Выберите опыт работы")
         .addRequiredGroup("#type", "Выберите тип занятости");
 
       return validate;

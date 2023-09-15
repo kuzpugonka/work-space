@@ -30,9 +30,8 @@
   padding: 0 16px;
   width: 100%;
 }
-.employer__input:placeholder {
-  color: red;
-  /* color: #CCC; */
+.employer__input::placeholder {
+  color: #CCC;
 }
 .employer__fieldset {
   margin-bottom: 32px;
@@ -46,7 +45,9 @@
   border: 0;
   text-align: left;
   padding: 7px 16px;
+  color: #CCC;
 }
+
 
 /* радио-кнопки */
 .employer__radio-btns {

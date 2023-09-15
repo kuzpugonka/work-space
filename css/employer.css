@@ -45,9 +45,10 @@
   border: 0;
   text-align: left;
   padding: 7px 16px;
+}
+.employer__textarea::placeholder {
   color: #CCC;
 }
-
 
 /* радио-кнопки */
 .employer__radio-btns {

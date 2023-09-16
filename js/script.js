@@ -21,7 +21,9 @@ const getData = async (url, cbSuccess, cbError) => {
 
 const createCard = (vacancy) => `
   <article class="vacancy" tabindex="0" data-id="${vacancy.id}">
-    <img src="${API_URL}${vacancy.logo}" alt="Логотип компании ${vacancy.company}" class="vacancy__img">
+    <img src="${API_URL}${vacancy.logo}" alt="Логотип компании ${
+  vacancy.company
+}" class="vacancy__img">
 
     <p class="vacancy__company">${vacancy.company}</p>
 
@@ -421,8 +423,7 @@ const init = () => {
 
     const formController = () => {
       const form = document.querySelector(".employer__form");
-      // console.log("form: ", form);
-
+      const employerError = document.querySelector(".employer__error");
       const validate = validationForm(form);
 
       form.addEventListener("submit", async (event) => {
@@ -435,6 +436,7 @@ const init = () => {
 
         try {
           const formData = new FormData(form);
+          employerError.textContent = "Идет отправка, подождите.";
 
           const responce = await fetch(`${API_URL}${VACANCY_URL}`, {
             method: "POST",
@@ -442,9 +444,13 @@ const init = () => {
           });
 
           if (responce.ok) {
+            employerError.textContent = "";
+
             window.location.href = "index.html";
           }
         } catch (error) {
+          employerError.textContent = "Произошла ошибка";
+
           console.error(error);
         }
       });

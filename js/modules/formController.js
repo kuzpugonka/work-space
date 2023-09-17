@@ -11,8 +11,11 @@ export const formController = () => {
 
     if (!validate.isValid) {
       // console.log("Отправка идет");
+      employerError.innerHTML = "<p>Заполните все поля корректно</p>"
       return;
     }
+
+    employerError.textContent = ''
 
     try {
       const formData = new FormData(form);
